@@ -10,11 +10,11 @@ select.addEventListener('change', async (e) => {
     other.value = await calculate(gtc, currency);
 })
 
-gatos.addEventListener('change', async (e) => {
+gatos.addEventListener('input', async (e) => {
     other.value = await calculate(gtc, currency);
 })
 
-other.addEventListener('change', async (e) => {
+other.addEventListener('input', async (e) => {
     gatos.value = await calculateReverse(gtc, currency);
 })
 
