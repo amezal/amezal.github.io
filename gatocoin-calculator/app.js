@@ -2,20 +2,24 @@ getCurrencies();
 const select = document.querySelector('#select');
 const gatos = document.querySelector('#gatos');
 const other = document.querySelector('#other');
+const decimals = 7;
 let currency = 'nio';
 let gtc = 'nio'
 
 select.addEventListener('change', async (e) => {
     currency = select.value;
-    other.value = await calculate(gtc, currency);
+    const value = await calculate(gtc, currency);
+    other.value = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 })
 
 gatos.addEventListener('input', async (e) => {
-    other.value = await calculate(gtc, currency);
+    const value = await calculate(gtc, currency);
+    other.value = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 })
 
 other.addEventListener('input', async (e) => {
-    gatos.value = await calculateReverse(gtc, currency);
+    const value = await calculateReverse(gtc, currency);
+    gatos.value = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
 })
 
 
