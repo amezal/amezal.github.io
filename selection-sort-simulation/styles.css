@@ -10,7 +10,9 @@ body{
 
 #myCanvas{
   align-items: center;
-  border:rgba(94, 96, 97, 0.582) 3px solid;
+  /* border:rgba(94, 96, 97, 0.582) 3px solid; */
+  border:none;
+  background-image: url('./ranita.png');
 }
 
 ul {
