@@ -24,8 +24,13 @@ const getNewArray = (length) => {
 }
 
 
+function remap(input, input_start, input_end, output_start, output_end) {
+  output = output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start)
+  return output;
+}
 
-let nums = getNewArray(100);
-// let nums = [5, 2, 3, 4, 1, 7, 9, 10, 8, 6]
-const numsMin = Math.min(...nums);
-const numsMax = Math.max(...nums);
+function swap(arr, xp, yp) {
+  var temp = arr[xp];
+  arr[xp] = arr[yp];
+  arr[yp] = temp;
+}

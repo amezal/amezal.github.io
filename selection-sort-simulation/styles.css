@@ -1,53 +1,228 @@
+html{
+  background-repeat:no-repeat;
+  height:100%;
+  width:100%;
+  background-attachment: fixed;
+  font-family: 'Nunito', sans-serif;
+}
+
 body{
   background-color: #1e2127;
-  color:aliceblue;
+  color:white;
   display:flex;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin:0;
+  height:100%;
+  width:100%;
+}
+
+button, select{
   font-family: 'Nunito', sans-serif;
-  justify-content: center;
+  background-color:transparent;
+  border-radius: 5px;
+  border:none;
+  outline:none;
+  font-size:1.1rem;
+  display:flex;
+  align-items:center;
+}
+
+button{
+  height:50%;
+  font-weight:700;
+  font-size:1rem;
 }
 
 #myCanvas{
-  align-items: center;
-  /* border:rgba(94, 96, 97, 0.582) 3px solid; */
-  border:none;
-  background-image: url('./ranita.png');
+  max-width:1000px;
+  padding: 2rem 2.5vw;
+  margin-top:5vh;
 }
 
-ul {
-  list-style: none; /* Remove default bullets */
-  vertical-align: middle;
-  margin: auto 0;
-  padding: auto 0;
+
+.gradient{
+  background: rgb(135,142,218);
+  background: linear-gradient(135deg, rgb(146, 154, 245) 5%, rgb(79,212,195) 50%, rgb(149, 65, 218) 95%);
 }
 
-div{
+.glass{
+  background: rgba(116, 99, 116, 0.459);
+  box-shadow:  20px 20px 60px #393c5d,
+             -20px -20px 60px #cacaca42;
+  backdrop-filter: blur( 6px );
+  -webkit-backdrop-filter: blur( 6px );
+  border-radius: 10px;
+  border: 0.5px solid rgba( 255, 255, 255, 0.18 );
+}
+
+
+.controls{
   display:flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction:row;
+  max-width:1000px;
+  margin-top:5vh;
+  justify-self:flex-end;
+  height:7vh;
+  width: 60vw;
+  justify-content:space-evenly;
+  align-items:center;
+  padding: 0 2.5vw;
 }
 
+.prueba{
+  position: absolute;
+  margin:0;
+  z-index:-10;
+}
 
-ul li::before {
+.input-container {
+  color:black;
+  font-weight:700;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
   text-align: center;
-  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
-  font-weight: bold; /* If you want it to be bold */
-  color: #82E682;
-  display: inline-block; /* Needed to add space between the bullet and the text */
-  width: 1.5rem; /* Also needed for space (tweak if needed) */
-  margin-left: -1em; /* Also needed for space (tweak if needed) */
 }
 
-ul li:nth-child(2)::before{
-  color: #826AED;
+
+input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color:transparent;
+  margin:0;
 }
-ul li:nth-child(3)::before{
-  color:#D52941;
+
+input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  cursor: pointer;
+  height:15px;
+  background:transparent;
+  box-shadow: inset -1px -1px 4px #ffffff56, inset 1px 1px 4px #0000007e;
+  border-radius: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background: #000000;
+  cursor: pointer;
+  
+  background: rgba(39, 58, 56, 0.555);
+  box-shadow: -1px -1px 4px #ffffff56, 1px 1px 4px #0000007e;
+  /* box-shadow:  -1px -1px 4px #393c5d, 1px 1px 4px #cacaca42; */
+  backdrop-filter: blur( 6px );
+  -webkit-backdrop-filter: blur( 6px );
+  border-radius: 10px;
+  /* border: 0.5px solid rgba( 255, 255, 255, 0.18 ); */
+
+}
+
+
+@media only screen and (max-width: 1024px) {
+  .controls{
+    width: 80vw;
+    padding:0;
+  }
 }
 
 @media only screen and (max-width: 768px) {
-  body {
-    flex-direction: column;
+
+  .controls{
+    width: 95vw;
+    font-size:0.8rem;
   }
+
+  .custom-select{
+    width:20vw;
+  }
+
+  
+input[type="range"] {
+  width:80%;
 }
+
+}
+
+
+/* The container must be positioned relative: */
+.custom-select {
+  position: relative;
+  font-weight:700;
+  width:15ch;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color: none;
+}
+
+/* Style the arrow inside the select element: */
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 50%;
+  bottom:50%;
+  right: 0px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: rgb(0, 0, 0) transparent transparent transparent;
+}
+
+/* Point the arrow upwards when the select box is open (active): */
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent rgb(0, 0, 0) transparent;
+  top:35%;
+}
+
+/* style the items (options), including the selected item: */
+.select-items div,.select-selected {
+  color: black;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  /* border-color: transparent transparent rgba(0, 0, 0, 0.301) transparent; */
+  cursor: pointer;
+}
+
+.select-items div{
+  border: 0.5px solid rgba( 255, 255, 255, 0.18 );
+    background: rgba(127, 141, 163, 0.548);
+
+  backdrop-filter: blur( 5px ) saturate(180%);
+  -webkit-backdrop-filter: blur( 5px ) saturate(180%);
+}
+
+/* Style items (options): */
+.select-items {
+  position: absolute;
+  /* background: rgba(127, 141, 163, 0.548); */
+  background-color:(0,0,0,0.2);
+  backdrop-filter: blur( 5px ) saturate(180%);
+  -webkit-backdrop-filter: blur( 5px ) saturate(180%);
+  border-radius: 10px;
+  border: 0.5px solid rgba( 255, 255, 255, 0.18 );
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+}
+
+/* Hide the items when the select box is closed: */
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover, .same-as-selected {
+  background-color: rgba(116, 110, 141, 0.397);
+}
+

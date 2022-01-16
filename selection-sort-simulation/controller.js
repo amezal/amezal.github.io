@@ -2,44 +2,47 @@ class Controller {
   constructor() {
     this.firstTime = true;
     this.isPlaying = false;
-    this.speed = 32;
-    this.data = getNewArray(100);
+    this.speed = 5;
+    this.data = getNewArray(10)
     this.graph = new Graph(this.data);
 
-    this.selectionSort = new SelectionSort(this.graph);
-
+    this.algos = [
+      new BubbleSort(this.graph),
+      new SelectionSort(this.graph),
+      new InsertionSort(this.graph),
+    ]
+    this.current = null;
   }
 
   play() {
-    frameRate(controller.speed);
-    if (this.isPlaying || this.firstTime) {
-      for (let step = 0; step < this.speed / 60; step += 1) {
-        this.current.step();
+    this.graph.update();
+    if (this.isPlaying) {
+      for (let step = 0; step < this.speed; step++) {
+        if (!this.graph.update()) {
+          this.current.step();
+        }
       }
+      this.isPlaying = this.current.isPlaying;
     }
-    this.firstTime = false;
   }
 
   selectAlgorithm(choice) {
-    switch (choice) {
-      case 'Selection Sort':
-        this.current = this.selectionSort;
-      default:
-        this.current = this.selectionSort;
-    }
+    this.current = this.algos[choice];
   }
 
   step() {
-    this.isPlaying = true;
-    this.current.step();
-    this.isPlaying = false;
+    if (!this.graph.update()) {
+      this.current.step();
+    }
   }
 
   reset(arraySize) {
     this.data = getNewArray(arraySize);
     this.graph = new Graph(this.data);
     this.current.reset(this.graph);
-    this.firstTime = true;
+    this.isPlaying = false;
   }
 
 }
+
+const controller = new Controller();

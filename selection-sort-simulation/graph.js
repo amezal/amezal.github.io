@@ -1,24 +1,3 @@
-function remap(input, input_start, input_end, output_start, output_end) {
-  output = output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start)
-  return output;
-}
-
-class Bar {
-  constructor(num) {
-    this.color = COLORS.WHITE
-    this.num = num;
-  }
-
-  show() {
-    noStroke();
-    smooth();
-    fill(this.color);
-    rect(this.pos, 600, this.pos + this.width, this.height, 3);
-    fill(COLORS.WHITE);
-    text(this.num, this.pos + this.width / 2, this.height - 3)
-  }
-}
-
 class Graph {
   constructor(arr) {
     this.arr = arr;
@@ -27,29 +6,65 @@ class Graph {
   }
 
   update() {
+    let isMoving = false;
     clear();
-    this.bars.forEach(bar => bar.show());
-    this.setBars();
+    this.bars.forEach(bar => {
+      if (!bar.move()) {
+        bar.show();
+      } else {
+        isMoving = true;
+      }
+    });
+    return isMoving;
+  }
+
+  swap(xp, yp) {
+    const tempPos = this.bars[xp].pos;
+    this.bars[xp].setTargetPos(this.bars[yp].pos);
+    this.bars[yp].setTargetPos(tempPos);
+    swap(this.bars, xp, yp);
+    swap(this.arr, xp, yp);
+
   }
 
   setBars() {
+
     const numsMin = Math.min(...this.arr);
     const numsMax = Math.max(...this.arr);
 
-    this.bars = this.arr.map(num => {
+    for (let i = 0; i < this.arr.length; i++) {
+      const num = this.arr[i];
       const bar = new Bar(num);
-      const width = 800 / (1.5 * this.arr.length + 1);
-      const pos = remap(this.arr.indexOf(num), 0, this.arr.length, width, 800);
-      const height = remap(num, numsMin, numsMax, 550 - 20, 20);
+      const width = CANVAS_WIDTH / (1.5 * this.arr.length + 1);
+      const pos = remap(i, 0, this.arr.length, width, CANVAS_WIDTH);
+      const height = remap(num, numsMin, numsMax, CANVAS_HEIGHT - 100, 50);
 
-      bar.width = width;
-      bar.pos = pos;
-      bar.height = height;
+      if (this.bars[i]) {
+        this.bars[i].width = width;
+        this.bars[i].height = height;
+        this.bars[i].pos = pos;
+        this.bars[i].num = num;
+      } else {
+        bar.width = width;
+        bar.height = height;
+        bar.pos = pos;
+        this.bars.push(bar);
+      }
 
-      return bar;
-    });
+    }
+
+    // this.bars = this.arr.map(num => {
+    //   const bar = new Bar(num);
+    //   const width = CANVAS_WIDTH / (1.5 * this.arr.length + 1);
+    //   const pos = remap(this.arr.indexOf(num), 0, this.arr.length, width, CANVAS_WIDTH);
+    //   const height = remap(num, numsMin, numsMax, CANVAS_HEIGHT - 50, 40);
+
+    //   bar.width = width;
+    //   bar.height = height;
+    //   bar.pos = pos;
+
+    //   return bar;
+    // });
   }
 
 }
-
-let graph = new Graph(nums);

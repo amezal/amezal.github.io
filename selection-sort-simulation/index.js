@@ -1,16 +1,11 @@
-let speed = 30;
-const controller = new Controller();
-let choice = 'Selection Sort';
-
 document.querySelector('#slider').addEventListener('input', e => {
   const input = e.target.value;
-  const value = remap(input, 1, 10, Math.pow(2, input), Math.pow(2, input));
-  controller.speed = value;
-  console.log(value);
+  controller.speed = input;
 })
 
 document.querySelector('#play').addEventListener('click', e => {
-  e.target.innerText === 'stop' ? e.target.innerText = 'start' : e.target.innerText = 'stop';
+  // e.target.innerText === 'stop' ? e.target.innerText = 'start' : e.target.innerText = 'stop';
+  // controller.isPlaying ? e.target.src = './icons/play_arrow_black_24dp.svg' : e.target.src = './icons/pause_black_24dp.svg'
   controller.isPlaying = !controller.isPlaying;
 })
 
@@ -19,20 +14,29 @@ document.querySelector('#step').addEventListener('click', e => {
 })
 
 document.querySelector('#reset').addEventListener('click', e => {
-  controller.reset(100);
+  const arrSize = document.querySelector('#arr-size').value;
+  controller.reset(arrSize);
 })
 
+
 function setup() {
-  let cnv = createCanvas(800, 550);
+  let cnv = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
   cnv.parent('myCanvas');
   rectMode(CORNERS);
   textAlign(CENTER);
   textSize(11);
-  controller.selectAlgorithm('Selection Sort');
+  controller.selectAlgorithm(1);
 }
 
 function draw() {
-
   controller.play();
-
+  const play = document.querySelector('#play img');
+  controller.isPlaying ? play.src = './icons/pause_black_24dp.svg' : play.src = './icons/play_arrow_black_24dp.svg'
 }
+
+function windowResized() {
+  resize();
+  resizeCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  controller.graph.setBars();
+}
+

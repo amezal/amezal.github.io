@@ -1,18 +1,15 @@
 class SelectionSort {
   constructor(graph) {
-    this.graph = graph;
-    this.i = 0;
-    this.x = 0;
-    this.j = 1;
-    this.min = 0;
+    this.reset(graph);
   }
 
   reset(graph) {
+    this.graph = graph;
     this.i = 0;
     this.x = 0;
     this.j = 1;
     this.min = 0;
-    this.graph = graph;
+    this.isPlaying = false;
   }
 
   step() {
@@ -21,9 +18,7 @@ class SelectionSort {
     let min = this.min;
     let x = this.x;
 
-
-    this.graph.update();
-
+    this.graph.bars.forEach(bar => bar.color = COLORS.WHITE)
 
     if (i < this.graph.arr.length - 1) {
       x = i;
@@ -48,25 +43,24 @@ class SelectionSort {
           this.graph.bars[x].color = COLORS.GREEN;
         }
       }
+
+      if (j % this.graph.arr.length == 0) {
+        this.graph.swap(min, i);
+        i++;
+        j = i + 1;
+        min = i;
+      }
+      this.isPlaying = true;
+      this.i = i;
+      this.j = j;
+      this.min = min;
+      this.x = x;
     } else {
-      this.graph.bars.forEach(bar => bar.color = COLORS.GREEN)
+      this.graph.bars.forEach(bar => bar.color = COLORS.GREEN);
+      this.isPlaying = false;
     }
 
 
-    if (j % this.graph.arr.length == 0) {
-      let tmp = this.graph.arr[i];
-      this.graph.arr[i] = this.graph.arr[min];
-      this.graph.arr[min] = tmp;
-      i++;
-      j = i + 1;
-      min = i;
-
-    }
-
-    this.i = i;
-    this.j = j;
-    this.min = min;
-    this.x = x;
 
 
 
