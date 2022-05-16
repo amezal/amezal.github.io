@@ -25,7 +25,7 @@ function setup() {
   rectMode(CORNERS);
   textAlign(CENTER);
   textSize(11);
-  controller.selectAlgorithm(1);
+  controller.selectAlgorithm(0);
 }
 
 function draw() {
